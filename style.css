@@ -26,3 +26,39 @@ main article .apropos {
 main article:hover .apropos {
     display : block;
 }
+header {
+    position: relative ;
+    display: flex;
+}
+
+header a {
+    margin-right: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    border : 1px solid #9b9a7c;
+    border-radius : 10px;
+}
+
+nav {
+    background-color: #9b9a7c;
+    padding: 5px; 
+    text-decoration: none;
+    text-align: center;
+    border-radius : 15px;
+}
+
+nav a {
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav ul il {
+    display: inline;
+    margin-left: 30px;
+}
+
+nav a:hover {
+    color: white;
+}
