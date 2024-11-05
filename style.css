@@ -7,6 +7,15 @@ body {
     padding-left : 20px;
 }
 
+header img {
+    width: 15%; 
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
 .image-produit {
     border-radius : 10%;
     border-color: black;
@@ -35,13 +44,13 @@ header a {
     margin-right: 20px;
     text-align: center;
     text-decoration: none;
-    color: black;
+    color: #212245;
     border : 1px solid #9b9a7c;
     border-radius : 10px;
 }
 
 nav {
-    background-color: #9b9a7c;
+    background-color: #a4cb6a;
     padding: 5px; 
     text-decoration: none;
     text-align: center;
@@ -49,16 +58,51 @@ nav {
 }
 
 nav a {
-    color: black;
+    color: #212245;
     font-weight: bold;
     text-transform: uppercase;
+    text-decoration: none; 
 }
 
-nav ul il {
+nav ul li {
     display: inline;
     margin-left: 30px;
 }
 
 nav a:hover {
     color: white;
+    transition : 0.7s
+}
+
+.barre-de-recherche {
+    display: flex;
+    justify-content: center; 
+    margin-top: 50px; 
+}
+
+.barre-de-recherche input[type="text"] {
+    width: 300px; 
+    padding: 10px; 
+    border: 2px solid #a4cb6a; 
+    background-color: #dceac6;
+    border-radius: 10px 0 0 10px; 
+    font-size: 16px;
+    outline: none; 
+}
+
+.barre-de-recherche button {
+    padding: 10px 20px;
+    border: 2px solid #a4cb6a;
+    border-left: none; 
+    background-color: #a4cb6a; 
+    color: black; 
+    font-size: 16px;
+    cursor: pointer; 
+    border-radius: 0 10px 10px 0; 
+    
+}
+
+/* Effet de survol pour le bouton */
+.search-bar button:hover {
+    background-color: #0056b3;
 }
