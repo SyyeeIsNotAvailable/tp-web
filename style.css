@@ -1,0 +1,28 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: beige;
+    padding-left : 20px;
+}
+
+.image-produit {
+    border-radius : 10%;
+    border-color: black;
+    border-style : groove;
+    border-width : 5px;
+    width : 200px;
+}
+
+main article {
+    grid-template-columns: 1fr 1fr;
+}
+
+main article .apropos {
+    display : none;
+}
+
+main article:hover .apropos {
+    display : block;
+}
