@@ -102,7 +102,14 @@ nav a:hover {
     
 }
 
-/* Effet de survol pour le bouton */
-.search-bar button:hover {
-    background-color: #0056b3;
+
+.barre-de-recherche button:hover {
+    animation: clignotement 1s infinite;
 }
+
+@keyframes clignotement {
+    0% { background-color: #a4cb6a; }  
+    50% { background-color: #74a529; } 
+    100% { background-color: #a4cb6a; }
+}
+
