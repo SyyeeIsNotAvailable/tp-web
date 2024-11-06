@@ -122,3 +122,9 @@ nav a:hover {
     100% { background-color: #a4cb6a; }
 }
 
+.articles{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
