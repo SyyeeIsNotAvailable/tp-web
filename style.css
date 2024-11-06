@@ -5,6 +5,7 @@
 body {
     background-color: beige;
     padding-left : 20px;
+    padding-right: 20px;
 }
 
 header img {
@@ -35,18 +36,9 @@ main article .apropos {
 main article:hover .apropos {
     display : block;
 }
-header {
-    position: relative ;
-    display: flex;
-}
 
-header a {
-    margin-right: 20px;
-    text-align: center;
-    text-decoration: none;
-    color: #212245;
-    border : 1px solid #9b9a7c;
-    border-radius : 10px;
+.logo {
+    width: 150px;
 }
 
 nav {
@@ -64,9 +56,21 @@ nav a {
     text-decoration: none; 
 }
 
-nav ul li {
-    display: inline;
-    margin-left: 30px;
+nav ul{
+    list-style-type: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: auto 2fr 2fr auto;
+    gap: 20px; /* espace entre les éléments de la liste */
+}
+
+nav ul li{
+    display: flex;
+    align-items: center;
+}
+
+ul li:nth-child(2){ /* 2ème élément de la liste je le place à droite pour qu'il colle le 3 éléments*/
+    justify-content: right;
 }
 
 nav a:hover {
