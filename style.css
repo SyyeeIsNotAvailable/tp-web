@@ -47,6 +47,7 @@ nav {
     text-decoration: none;
     text-align: center;
     border-radius : 15px;
+    display:sticky;
 }
 
 nav a {
@@ -60,7 +61,7 @@ nav ul{
     list-style-type: none;
     padding-left: 0;
     display: grid;
-    grid-template-columns: auto 2fr 2fr auto;
+    grid-template-columns: 1fr 2fr 2fr 1fr;
     gap: 20px; /* espace entre les éléments de la liste */
 }
 
@@ -70,6 +71,10 @@ nav ul li{
 }
 
 ul li:nth-child(2){ /* 2ème élément de la liste je le place à droite pour qu'il colle le 3 éléments*/
+    justify-content: right;
+}
+
+ul li:nth-child(4){ /* 2ème élément de la liste je le place à droite pour qu'il colle le 3 éléments*/
     justify-content: right;
 }
 
