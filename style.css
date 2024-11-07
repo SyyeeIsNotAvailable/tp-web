@@ -7,7 +7,9 @@ body {
     padding-left : 20px;
     padding-right: 20px;
 }
-
+header{
+    position: sticky;
+}
 header img {
     width: 15%; 
     height: auto;
@@ -27,10 +29,28 @@ header img {
 
 main article {
     display: flex;
+    position: relative;
+    border-radius: 10px;
+    border: 5px solid #a4cb6a;
+}
+
+main article .titre{
+    align-self: center;
+    margin-left: 20%;
+    font-size: 75px;
+}
+
+
+main article:hover .titre {
+    display: none;
 }
 
 main article .apropos {
+    width: 100%;
+    height: 100%;
     display : none;
+    position: relative;
+    background-color: #a4cb6a;
 }
 
 main article:hover .apropos {
@@ -124,7 +144,7 @@ nav a:hover {
 
 .articles{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 3fr 3fr;
     grid-template-rows: 1fr 1fr;
 }
 
