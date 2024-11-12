@@ -109,6 +109,7 @@ nav a:hover {
     grid-template-columns: 25% 25% 25%;
     grid-template-rows: auto auto auto;
     gap: 5%;
+    margin-bottom: 250px;
 }
 
 .produit {
