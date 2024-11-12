@@ -3,13 +3,19 @@
 }
 
 body {
+    height:200vh;
+    width: 100%;
+    background-position:center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url(images/logogif.gif); /*anniamtion de fond*/
     background-color: beige;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 /*Barre de navigation*/
 header {
     position: sticky;
+    top: 0px;
+    z-index: 1000; /* pour que le header reste au dessus des autres éléments */
 }
 
     header img {
@@ -30,7 +36,8 @@ nav {
     text-decoration: none;
     text-align: center;
     border-radius: 15px;
-    display: sticky;
+    display: sticky; 
+    
 }
 
     nav a {
@@ -72,6 +79,9 @@ nav a:hover {
     display: flex;
     justify-content: center;
     margin-top: 50px;
+    position: sticky;
+    top: 220px;
+    z-index: 1000; /* pour que la barre de recherche reste au dessus des autres éléments */
 }
 
     .barre-de-recherche input[type="text"] {
@@ -130,7 +140,7 @@ nav a:hover {
 }
 /*fin des articles*/
 
-@keyframes clignotement {
+@keyframes clignotement { /* animation du bouton de recherche */
     0% {
         background-color: #a4cb6a;
     }
@@ -148,19 +158,19 @@ nav a:hover {
     position: relative;
 }
 
-#backcolor-identification {
+#backcolor-identification { /* dégradé de couleur du background pour les page identification et newsletter */
     background: linear-gradient(45deg, #3b8314, beige);
     height: 100vh;
     font-family: arial, sans-serif;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
 }
 
-.form1 {
+.form1 { /* habillage du formulaire d'identification */
     background: rgba(255, 255, 255, .3);
     padding: 3rem;
-    height: 320px;
+    height: 340px;
     border-radius: 20px;
     border-left: 1px solid rgba(255, 255, 255, .3);
     border-top: 1px solid rgba(255, 255, 255, .3);
@@ -171,7 +181,7 @@ nav a:hover {
     text-align: center;
 }
 
-.form2{
+.form2{ /* habillage du formulaire de newsletter */
     background: rgba(255, 255, 255, .3);
     padding: 3rem;
     height: 700px;
@@ -318,3 +328,58 @@ button {
     opacity: .7;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
 }
+.form1 a {
+    color: black;
+    font-size: 15px;
+    opacity: .7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    text-decoration: none;
+}
+
+.form1 a:active {
+           text-shadow: none;
+}   
+
+.form1 a:hover {
+    color: white;
+    transition: 0.7s
+}
+
+.articles button {
+    padding: 10px 20px;
+    border: 2px solid #a4cb6a;
+    border-left: none;
+    background-color: #a4cb6a;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.articles button > img {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.articles button {
+    cursor: pointer;
+    height: 50px;
+}
+
+    .articles button:focus {
+        animation: etendre 1s ease-in-out;
+        animation-fill-mode: forwards
+    }
+
+        .articles button:focus > span {
+            animation: disparaitre 1s ease-in-out;
+            animation-fill-mode: forwards
+        }
+
+        .articles button:focus > img {
+            animation: apparaitre 1s ease-in-out;
+            animation-fill-mode: forwards
+        }
