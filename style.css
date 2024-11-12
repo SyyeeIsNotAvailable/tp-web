@@ -103,10 +103,11 @@ nav a:hover {
 
 /*les articles*/
 .articles {
+    padding-left: 10%;
     display: grid;
-    grid-template-columns: 16% 16% 16% 16% 16% 16%;
-    grid-template-rows: 2fr;
-    gap: 1%;
+    grid-template-columns: 25% 25% 25%;
+    grid-template-rows: 2fr 2fr 2fr;
+    gap: 5%;
 }
 
 .produit {
@@ -120,8 +121,8 @@ nav a:hover {
 
 .image-produit {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 250px;
+    object-fit:fill;
     border-radius: 10px;
 }
 /*fin des articles*/
