@@ -157,10 +157,24 @@ nav a:hover {
     justify-content: center;
 }
 
-form {
+.form1 {
     background: rgba(255, 255, 255, .3);
     padding: 3rem;
     height: 320px;
+    border-radius: 20px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    -moz-backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .2);
+    text-align: center;
+}
+
+.form2{
+    background: rgba(255, 255, 255, .3);
+    padding: 3rem;
+    height: 700px;
     border-radius: 20px;
     border-left: 1px solid rgba(255, 255, 255, .3);
     border-top: 1px solid rgba(255, 255, 255, .3);
@@ -212,6 +226,7 @@ input, button {
     transition: all .3s;
     margin-bottom: 2em;
 }
+
 
 @keyframes etendre {
     0% {
@@ -296,3 +311,10 @@ button {
             animation: apparaitre 1s ease-in-out;
             animation-fill-mode: forwards
         }
+
+.titre2 {
+    color: black;
+    font-size: 15px;
+    opacity: .7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+}
