@@ -6,6 +6,7 @@ body {
     background-color: beige;
     padding-left: 20px;
     padding-right: 20px;
+    position: relative;
 }
 /*Barre de navigation*/
 header {
@@ -106,7 +107,7 @@ nav a:hover {
     padding-left: 10%;
     display: grid;
     grid-template-columns: 25% 25% 25%;
-    grid-template-rows: 2fr 2fr 2fr;
+    grid-template-rows: auto auto auto;
     gap: 5%;
 }
 
@@ -293,3 +294,7 @@ button {
             animation: apparaitre 1s ease-in-out;
             animation-fill-mode: forwards
         }
+
+footer{
+    position: relative;
+}
