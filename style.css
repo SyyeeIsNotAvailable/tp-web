@@ -307,20 +307,20 @@ button {
     height: 50px;
 }
 
-    button:focus {
-        animation: etendre 1s ease-in-out;
-        animation-fill-mode: forwards
-    }
+.buttonConnexion:focus {
+    animation: etendre 1s ease-in-out;
+    animation-fill-mode: forwards
+}
 
-        button:focus > span {
-            animation: disparaitre 1s ease-in-out;
-            animation-fill-mode: forwards
-        }
+.buttonConnexion:focus > span {
+    animation: disparaitre 1s ease-in-out;
+    animation-fill-mode: forwards
+}
 
-        button:focus > img {
-            animation: apparaitre 1s ease-in-out;
-            animation-fill-mode: forwards
-        }
+.buttonConnexion:focus > img {
+    animation: apparaitre 1s ease-in-out;
+    animation-fill-mode: forwards
+}
 
 .titre2 {
     color: black;
