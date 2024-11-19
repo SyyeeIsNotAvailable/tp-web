@@ -9,6 +9,16 @@ body {
     background-attachment: fixed;
     background-color: darkslategrey;
 }
+/*animation des images*/
+img {
+    transition: 0.5s;
+}
+img:hover {
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    transform: scale(1.05);
+}
+/*fin des animations images*/
 /*Barre de navigation*/
 header {
     position: sticky;
@@ -26,6 +36,7 @@ header {
 
 .logo {
     width: 150px;
+    border-radius: 5px;
 }
 
 nav {
@@ -80,32 +91,31 @@ nav a:hover {
     top: 220px;
     z-index: 1000; /* pour que la barre de recherche reste au dessus des autres éléments */
 }
+.barre-de-recherche input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #a4cb6a;
+    background-color: #dceac6;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    outline: none;
+}
 
-    .barre-de-recherche input[type="text"] {
-        width: 300px;
-        padding: 10px;
-        border: 2px solid #a4cb6a;
-        background-color: #dceac6;
-        border-radius: 10px 0 0 10px;
-        font-size: 16px;
-        outline: none;
-    }
-
-    .barre-de-recherche button {
-        padding: 10px 20px;
-        border: 2px solid #a4cb6a;
-        border-left: none;
-        background-color: #a4cb6a;
-        color: black;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 0 10px 10px 0;
-    }
+.barre-de-recherche button {
+    padding: 10px 20px;
+    border: 2px solid #a4cb6a;
+    border-left: none;
+    background-color: #a4cb6a;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+}
 
 
-        .barre-de-recherche button:hover {
-            animation: clignotement 1s infinite;
-        }
+.barre-de-recherche button:hover {
+    animation: clignotement 1s infinite;
+}
 /*fin de la barre de recherche*/
 
 /*les articles*/
@@ -120,6 +130,7 @@ nav a:hover {
 }
 
 .produit {
+    transition: 0.5s;
     position: relative;
     background-color: #dceac6;
     border-radius: 10px;
@@ -127,6 +138,12 @@ nav a:hover {
     margin: 10px;
     text-align: center;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.produit:hover {
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+    transform: scale(1.05);
 }
 
 .image-produit {
