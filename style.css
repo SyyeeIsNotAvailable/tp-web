@@ -4,12 +4,10 @@
 
 body {
     height:200vh;
-    width: 100%;
     background-position:center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-image: url(images/logogif.gif); /*anniamtion de fond*/
-    background-color: beige;
+    background-color: darkslategrey;
 }
 /*Barre de navigation*/
 header {
@@ -32,7 +30,7 @@ header {
 
 nav {
     background-color: #97cd6c;
-    padding: 5px;
+    padding: 2px;
     text-decoration: none;
     text-align: center;
     border-radius: 15px;
@@ -79,7 +77,6 @@ nav a:hover {
     display: flex;
     justify-content: center;
     margin-top: 50px;
-    position: sticky;
     top: 220px;
     z-index: 1000; /* pour que la barre de recherche reste au dessus des autres éléments */
 }
