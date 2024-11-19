@@ -29,7 +29,7 @@ header {
 }
 
 nav {
-    background-color: #97cd6c;
+    background-color: #388a8a;
     padding: 2px;
     text-decoration: none;
     text-align: center;
@@ -83,8 +83,8 @@ nav a:hover {
 .barre-de-recherche input[type="text"] {
     width: 300px;
     padding: 10px;
-    border: 2px solid #a4cb6a;
-    background-color: #dceac6;
+    border: 2px solid #388a8a;
+    background-color: #ffffff;
     border-radius: 10px 0 0 10px;
     font-size: 16px;
     outline: none;
@@ -92,9 +92,9 @@ nav a:hover {
 
 .barre-de-recherche button {
     padding: 10px 20px;
-    border: 2px solid #a4cb6a;
+    border: 2px solid #388a8a;
     border-left: none;
-    background-color: #a4cb6a;
+    background-color: #388a8a;
     color: black;
     font-size: 16px;
     cursor: pointer;
@@ -121,7 +121,7 @@ nav a:hover {
 .produit {
     transition: 0.5s;
     position: relative;
-    background-color: #dceac6;
+    background-color: #ffffff;
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
@@ -152,15 +152,15 @@ nav a:hover {
 
 @keyframes clignotement { /* animation du bouton de recherche */
     0% {
-        background-color: #a4cb6a;
+        background-color: #388a8a;
     }
 
     50% {
-        background-color: #74a529;
+        background-color: darkslategrey;
     }
 
     100% {
-        background-color: #a4cb6a;
+        background-color: #388a8a;
     }
 }
 
@@ -168,8 +168,8 @@ nav a:hover {
     position: relative;
 }
 
-#backcolor-identification { /* dégradé de couleur du background pour les page identification et newsletter */
-    background: linear-gradient(45deg, #3b8314, beige);
+#backcolor { /* dégradé de couleur du background pour les page identification, newsletter et mdp oublié*/
+    background: linear-gradient(45deg, darkslategrey, white);
     height: 100vh;
     font-family: arial, sans-serif;
     display: flex;
@@ -195,6 +195,20 @@ nav a:hover {
     background: rgba(255, 255, 255, .3);
     padding: 3rem;
     height: 700px;
+    border-radius: 20px;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    -moz-backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .2);
+    text-align: center;
+}
+
+.form3 { /* habillage du formulaire de mot de passe oublié */
+    background: rgba(255, 255, 255, .3);
+    padding: 3rem;
+    height: 225px;
     border-radius: 20px;
     border-left: 1px solid rgba(255, 255, 255, .3);
     border-top: 1px solid rgba(255, 255, 255, .3);
@@ -240,7 +254,7 @@ input, button {
     -webkit-backdrop-filter: blur(5px);
     -moz-backdrop-filter: blur(5px);
     box-shadow: 4px 4px 60px rgba(0, 0, 0, .2);
-    color: #74a529;
+    color: darkslategrey;
     font-weight: 500;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
     transition: all .3s;
@@ -357,10 +371,10 @@ button {
 
 .articles button {
     padding: 10px 20px;
-    border: 2px solid #a4cb6a;
+    border: 2px solid darkslategrey;
     border-left: none;
-    background-color: #a4cb6a;
-    color: black;
+    background-color: darkslategrey;
+    color: white;
     font-size: 16px;
     cursor: pointer;
     border-radius: 10px 10px 10px 10px;
@@ -433,4 +447,41 @@ footer{
 }
 footer button{
     align-self: center;
+    background-color: #388a8a;
+    border-color: #388a8a;
+    color : white; 
+}
+
+.form2 a {
+    color: black;
+    font-size: 15px;
+    opacity: .7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    text-decoration: none;
+}
+
+.form2 a:active {
+           text-shadow: none;
+}   
+
+.form2 a:hover {
+    color: white;
+    transition: 0.7s
+}
+
+.form3 a {
+    color: black;
+    font-size: 15px;
+    opacity: .7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    text-decoration: none;
+}
+
+.form3 a:active {
+           text-shadow: none;
+}   
+
+.form3 a:hover {
+    color: white;
+    transition: 0.7s
 }
