@@ -383,4 +383,23 @@ button {
 
 .open_article{
     display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.open_article img {
+    width: 500px;
+    height: 500px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.text {
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
 }
