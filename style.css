@@ -416,4 +416,15 @@ button {
     padding-right: 20px;
     background-color: #ffffff;
     border-radius: 10px;
+
+}
+
+.textDescription {
+    width: 750px;
+    height: 500px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+
 }
