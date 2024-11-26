@@ -485,3 +485,11 @@ footer button{
     color: white;
     transition: 0.7s
 }
+
+@media only screen and (max-width:600px) {
+    .articles {
+        grid-template-columns: 100%;
+        grid-template-rows: auto;
+        padding: 30px;
+    }
+}
