@@ -6,7 +6,7 @@ body {
     background-position:center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-color: darkslategrey;
+    background-color: #1a4458;
 }
 /*Barre de navigation*/
 header {
@@ -130,7 +130,7 @@ nav a:hover {
 }
 
 .produit:hover {
-    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 60px #388a8a;
     transition: 0.5s;
     transform: scale(1.05);
 }
@@ -143,11 +143,6 @@ nav a:hover {
     border-radius: 10px;
 }
 
-.image-produit:hover {
-    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.5);
-    transition: 0.5s;
-    transform: scale(1.05);
-}
 /*fin des articles*/
 
 @keyframes clignotement { /* animation du bouton de recherche */
@@ -156,7 +151,7 @@ nav a:hover {
     }
 
     50% {
-        background-color: darkslategrey;
+        background-color: #1a4458;
     }
 
     100% {
@@ -411,8 +406,12 @@ button {
 .open_article{
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
     margin-top: 40px;
+    margin-right: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+}
+.open_article div{
     margin-right: 10px;
     margin-left: 10px;
 }
@@ -491,5 +490,20 @@ footer button{
         grid-template-columns: 100%;
         grid-template-rows: auto;
         padding: 30px;
+        gap: 10px;
     }
+    .open_article{
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .open_article div{
+        margin-top: 10px;
+    }
+}
+footer p {
+    color: white;
+    font-size: 15px;
+    opacity: .7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
 }
