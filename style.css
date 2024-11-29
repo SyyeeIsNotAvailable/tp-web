@@ -501,6 +501,23 @@ footer button{
         margin-top: 10px;
     }
 }
+
+@media only screen and (max-width:1200px) {
+    .articles {
+        grid-template-columns: 100%;
+        grid-template-rows: auto;
+        padding: 30px;
+        gap: 10px;
+    }
+    .open_article{
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .open_article div{
+        margin-top: 10px;
+    }
+}
 footer p {
     color: white;
     font-size: 15px;
