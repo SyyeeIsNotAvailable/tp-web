@@ -504,12 +504,15 @@ footer button{
     }
 }
 
-@media only screen and (max-width:1200px) {
+@media only screen and (max-width:768px) and (min-width:600px) {
     .articles {
-        grid-template-columns: 100%;
-        grid-template-rows: auto;
-        padding: 30px;
-        gap: 10px;
+        position: relative;
+        padding-left: 5%;
+        display: grid;
+        grid-template-columns: 45% 45%;
+        grid-template-rows: auto auto;
+        gap: 5%;
+        margin-bottom: 250px;
     }
     .open_article{
         flex-wrap: wrap;
