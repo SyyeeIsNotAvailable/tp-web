@@ -477,6 +477,9 @@ footer button{
 
 @media only screen and (max-width:600px) {
     /*format smartphone */
+    header {
+        position: relative;
+    }
     nav ul {
         list-style-type: none;
         display: grid;
