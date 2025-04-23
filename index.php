@@ -42,7 +42,7 @@ session_start();
                             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
                             if ($user && $user['admin']) {
-                                echo '<a href="admin/gestion.php">Gestion</a>';
+                                echo '<a href="gestion.php">Gestion</a>';
                             } else {
                                 echo '<a href="moncompte.php">Mon compte</a>';
                             }
