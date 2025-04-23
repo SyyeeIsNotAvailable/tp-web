@@ -19,8 +19,42 @@ session_start();
         
             <ul>
                 <li><img class=logo src="images/logo-transparent-png.png" alt="logo" /></li>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="html/newsletter.html">Newsletter</a></li>
+                <li><a href="index.php">Accueil</a></li>
+                <li>
+                <?php
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    if (isset($_SESSION['email'])) {
+                        // Connexion à la base de données (MAMP par défaut : user root, mdp root)
+                        $host = 'localhost';
+                        $dbname = 'web';
+                        $username = 'root';
+                        $password = 'root';
+
+                        try {
+                            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                            // Requête pour récupérer l'attribut admin de l'utilisateur connecté
+                            $stmt = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
+                            $stmt->execute([$_SESSION['email']]);
+                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                            if ($user && $user['admin']) {
+                                echo '<a href="admin/gestion.php">Gestion</a>';
+                            } else {
+                                echo '<a href="moncompte.php">Mon compte</a>';
+                            }
+                    } catch (PDOException $e) {
+                        echo "Erreur de connexion à la base de données : " . $e->getMessage();
+                    }
+                    } else {
+                        echo '<a href="html/newletter.html">Newsletter</a>';
+                    }
+            ?>
+            </li>
+
                 <li><a href="html/information.html">Information</a></li>
                 <li>
                     <?php if (isset($_SESSION['email'])): ?>
