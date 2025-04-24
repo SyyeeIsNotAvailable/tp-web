@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $admin = 0;
 
     // Vérifie si l'email existe déjà
-    $verif = $pdo->prepare("SELECT id_utilisateur FROM utilisateurs WHERE email = :email");
+    $verif = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = :email");
     $verif->execute([':email' => $email]);
     
     if ($verif->fetch()) {
