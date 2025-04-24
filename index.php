@@ -50,7 +50,7 @@ session_start();
                         echo "Erreur de connexion à la base de données : " . $e->getMessage();
                     }
                     } else {
-                        echo '<a href="html/newsletter.html">Newsletter</a>';
+                        echo '<a href="html/newsletter.php">Newsletter</a>';
                     }
             ?>
             </li>
