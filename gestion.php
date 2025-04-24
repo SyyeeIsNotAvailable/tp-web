@@ -131,7 +131,7 @@ try {
                     }
                  ?>
                 </li>
-                <li><a href="html/information.html">Information</a></li>
+                <li><a href="html/information.php">Information</a></li>
                 <li>
                     <?php if (isset($_SESSION['email'])): ?>
                         <a href="deconnexion.php">Déconnexion</a>

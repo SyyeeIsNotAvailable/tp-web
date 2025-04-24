@@ -726,3 +726,62 @@ footer p {
     margin-top: 50px;
     margin-bottom: 20px;
 }
+
+.compte {
+    background: linear-gradient(135deg, #388a8a, #1a4458);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.compte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.compte h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.compte p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.compte button {
+    background-color: #ffffff;
+    color: #388a8a;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.compte button:hover {
+    background-color: #388a8a;
+    color: white;
+}
+
+.boutoncompte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

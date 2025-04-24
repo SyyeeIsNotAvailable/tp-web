@@ -1,69 +1,131 @@
 <?php
-
 session_start();
-$pdo = new PDO("mysql:host=localhost;dbname=web", "root", "root");
-
-// 👇 Protection propre
-$id = $_SESSION['user_id'] ?? null;
-if (!$id) {
-    header("Location: connexion.php");
-    exit;
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
 }
 
-// Récupération des données utilisateur
-$stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE id = ?");
-$stmt->execute([$id]);
+// Connexion
+$pdo = new PDO("mysql:host=localhost;dbname=web;charset=utf8", "root", "root");
+
+// Récupérer l'utilisateur connecté
+$stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE email = ?");
+$stmt->execute([$_SESSION['email']]);
 $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Traitement formulaire
+// Mise à jour des infos
 if (isset($_POST['update'])) {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $email = $_POST['email'];
-    $date_naissance = $_POST['date_naissance'];
-    $adresse = $_POST['adresse'];
-    $mot_de_passe = $_POST['mot_de_passe'];
+    $stmt = $pdo->prepare("UPDATE utilisateurs SET email = ?, mot_de_passe = ?, nom = ?, prenom = ?, date_naissance = ?, adresse = ? WHERE id = ?");
+    $stmt->execute([
+        $_POST['email'],
+        $_POST['mot_de_passe'],
+        $_POST['nom'],
+        $_POST['prenom'],
+        $_POST['date_naissance'],
+        $_POST['adresse'],
+        $utilisateur['id']
+    ]);
+    $_SESSION['email'] = $_POST['email']; // Mise à jour de l'email en session
+    header("Location: moncompte.php");
+    exit();
+}
 
-    if (!empty($mot_de_passe)) {
-        $mot_de_passe_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
-        $sql = "UPDATE utilisateur SET nom = ?, prenom = ?, email = ?, date_naissance = ?, adresse = ?, mot_de_passe = ? WHERE id = ?";
-        $params = [$nom, $prenom, $email, $date_naissance, $adresse, $mot_de_passe_hash, $id];
-    } else {
-        $sql = "UPDATE utilisateur SET nom = ?, prenom = ?, email = ?, date_naissance = ?, adresse = ? WHERE id = ?";
-        $params = [$nom, $prenom, $email, $date_naissance, $adresse, $id];
-    }
-
-    $update = $pdo->prepare($sql);
-    $update->execute($params);
-
-    echo "<p>✅ Informations mises à jour avec succès.</p>";
-
-    // Rafraîchir l'utilisateur
-    $stmt->execute([$id]);
-    $utilisateur = $stmt->fetch(PDO::FETCH_ASSOC);
+// Suppression du compte
+if (isset($_POST['delete'])) {
+    $stmt = $pdo->prepare("DELETE FROM utilisateurs WHERE id = ?");
+    $stmt->execute([$utilisateur['id']]);
+    session_destroy();
+    header("Location: index.php");
+    exit();
 }
 ?>
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon compte - Click & Deals</title>
+    <meta charset="utf-8" />
+    <title>Gestion - Click & Deals</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/logo-transparent-png.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<header>
+        <nav>
+            <ul>
+                <li><img class=logo src="images/logo-transparent-png.png" alt="logo" /></li>
+                <li><a href="index.php">Accueil</a></li>
+                <li>
+                <?php
+                    if (isset($_SESSION['email'])) {
+                        try {
+                            $stmt_nav = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
+                            $stmt_nav->execute([$_SESSION['email']]);
+                            $user_nav = $stmt_nav->fetch(PDO::FETCH_ASSOC);
 
-<form method="POST" action="mon_compte.php">
-  <label>Nom :</label>
-  <input type="text" name="nom" value="<?= htmlspecialchars($utilisateur['nom']) ?>" required><br>
+                            if ($user_nav && $user_nav['admin']) {
+                                echo '<a href="gestion.php">Gestion</a>';
+                            } else {
+                                echo '<a href="moncompte.php">Mon compte</a>';
+                            }
+                        } catch (PDOException $e) {
+                            error_log("Erreur nav header: " . $e->getMessage());
+                            echo '<a href="moncompte.php">Mon compte</a>';
+                        }
+                    } else {
+                        echo '<a href="html/newletter.html">Newsletter</a>';
+                    }
+                 ?>
+                </li>
+                <li><a href="html/information.html">Information</a></li>
+                <li>
+                    <?php if (isset($_SESSION['email'])): ?>
+                        <a href="deconnexion.php">Déconnexion</a>
+                    <?php else: ?>
+                        <a href="html/indentification.php">S'identifier</a>
+                    <?php endif; ?>
+                </li>
+                <li><a href="#cart-modal" id="panier-bouton">🛒 Panier</a>
+                    <div id="cart-modal" style="display:none;">
+                        <div class="cart-content">
+                            <a href="#" class="close-modal">×</a>
+                            <p>Votre panier est vide.</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+ 
+    <h2 style="text-align: center; color: white;">Mon compte</h2>
 
-  <label>Prénom :</label>
-  <input type="text" name="prenom" value="<?= htmlspecialchars($utilisateur['prenom']) ?>" required><br>
+    <form class="compte" method="POST">
+        <label>Email</label>
+        <input type="email" name="email" value="<?= htmlspecialchars($utilisateur['email']) ?>" required style="color: white;">
 
-  <label>Email :</label>
-  <input type="email" name="email" value="<?= htmlspecialchars($utilisateur['email']) ?>" required><br>
+        <label>Mot de passe </label>
+        <input type="text" name="mot_de_passe" value="<?= htmlspecialchars($utilisateur['mot_de_passe']) ?>" required style="color: white;">
 
-  <label>Date de naissance :</label>
-  <input type="date" name="date_naissance" value="<?= htmlspecialchars($utilisateur['date_naissance']) ?>"><br>
+        <label>Nom </label>
+        <input type="text" name="nom" value="<?= htmlspecialchars($utilisateur['nom']) ?>" required style="color: white;">
 
-  <label>Adresse :</label>
-  <textarea name="adresse" required><?= htmlspecialchars($utilisateur['adresse']) ?></textarea><br>
+        <label>Prénom </label>
+        <input type="text" name="prenom" value="<?= htmlspecialchars($utilisateur['prenom']) ?>" required style="color: white;">
 
-  <label>Nouveau mot de passe (laisser vide pour ne pas changer) :</label>
-  <input type="password" name="mot_de_passe"><br>
+        <label>Date de naissance </label>
+        <input type="date" name="date_naissance" value="<?= htmlspecialchars($utilisateur['date_naissance']) ?>" required style="color: white;">
 
-  <button type="submit" name="update">Mettre à jour</button>
-</form>
+        <label>Adresse </label>
+        <textarea name="adresse" required><?= htmlspecialchars($utilisateur['adresse']) ?></textarea>
+        </br>
 
+        <div class="boutoncompte">
+            <button class="boutoncompte" type="submit" name="update" style="transition: background-color 0.3s; text-align: center; display: flex; justify-content: center; align-items: center;" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';">Enregistrer les modifications</button>
+            <a href="deconnexion.php"><button type="button">Se déconnecter</button></a>
+            <button type="submit" name="delete" class="danger" onclick="return confirm('Supprimer votre compte ?')style="transition: background-color 0.3s; text-align: center; display: flex; justify-content: center; align-items: center;" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';">Supprimer mon compte</button>
+        </div>
+    </form>
+</body>
+</html>
