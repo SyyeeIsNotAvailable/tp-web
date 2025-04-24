@@ -402,8 +402,8 @@ button {
     overflow: hidden;
 }
 .open_article div{
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 10px !important;
+    margin-left: 10px !important;
 }
 
 .open_article img {
@@ -678,4 +678,51 @@ footer p {
     max-width: 500px; 
     font-size: 16px; 
     color: #388a8a;
+}
+
+.gestion-table {
+    border-radius: 0 0 30px 30px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #5499a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.gestion-table thead th {
+    padding: 10px;
+    text-align: left;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.gestion-table tbody td {
+    padding: 10px;
+    text-align: left;
+    border: none;
+    color: #ffffff;
+}
+
+.nom-gestion {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.bienvenue {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
