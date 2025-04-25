@@ -63,12 +63,8 @@ session_start();
                         <a href="html/indentification.php">S'identifier</a>
                     <?php endif; ?>
                 </li>
-                <li><a href="#cart-modal" id="panier-bouton">🛒 Panier</a>
-                <div id="cart-modal">
-        <div class="cart-content">
-            <a href="#" class="close-modal">&times;</a>
-            <p>Votre panier est vide.</p>
-        </div></li>
+                <li><a href="monpanier.php" id="panier-bouton">🛒 Panier</a>
+                </li>
             </ul> 
         </nav>
     </header>
