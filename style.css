@@ -784,4 +784,55 @@ footer p {
     display: flex;
     flex-direction: column;
     align-items: center;
+}   
+
+/* Thème clair */
+.clair body {
+    background-color: #6cbdc4;
 }
+
+/* Thème sombre */
+.sombre body {
+    background-color: #1a4458;
+}
+
+.choix-theme {
+    position: fixed;
+    bottom: 0px;
+    left: 60%;
+    right: 10%;
+    background: #eee; 
+    padding: 20px; 
+    text-align: center; 
+    z-index: 9999;
+    border-radius: 20px 20px 0 0;
+}
+
+.boutoncookie1 {
+    background-color: #388a8a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.boutoncookie1:hover {
+    background-color: #6cbdc4;
+    transition: background-color 0.3s ease;
+}
+.boutoncookie2 {
+    background-color: #388a8a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.boutoncookie2:hover {
+    background-color: #1a4458;
+    transition: background-color 0.3s ease;
+}
+
+

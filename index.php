@@ -1,91 +1,86 @@
 ﻿<?php
 session_start();
+
+// Gestion du thème via cookies
+if (isset($_POST['theme'])) {
+    setcookie('theme', $_POST['theme'], time() + (86400 * 30), "/"); // valide 30 jours
+    header("Location: index.php");
+    exit();
+}
+
+$theme = isset($_COOKIE['theme']) ? $_COOKIE['theme'] : null;
 ?>
 
 <!DOCTYPE html>
-
-<html lang="fr">
+<html lang="fr" class="<?= $theme ? htmlspecialchars($theme) : '' ?>">
 <head>
     <meta charset="utf-8" />
     <title>Click & Deals</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" href="images/logo-transparent-png.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 </head>
 <body>
-    <header>
-        <nav>
-        
-            <ul>
-                <li><img class=logo src="images/logo-transparent-png.png" alt="logo" /></li>
-                <li><a href="index.php">Accueil</a></li>
-                <li>
-                <?php
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start();
-                    }
-                    if (isset($_SESSION['email'])) {
-                        // Connexion à la base de données (MAMP par défaut : user root, mdp root)
-                        $host = 'localhost';
-                        $dbname = 'web';
-                        $username = 'root';
-                        $password = 'root';
+<?php if (!$theme): ?>
+    <div class="choix-theme">
+        <form method="post">
+            <p>Choisissez un thème :</p>
+            <button class="boutoncookie1" type="submit" name="theme" value="clair">🌞 Thème clair</button>
+            <button class="boutoncookie2" type="submit" name="theme" value="sombre">🌙 Thème sombre</button>
+        </form>
+    </div>
+<?php endif; ?>
 
-                        try {
-                            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                            // Requête pour récupérer l'attribut admin de l'utilisateur connecté
-                            $stmt = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
-                            $stmt->execute([$_SESSION['email']]);
-                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                            if ($user && $user['admin']) {
-                                echo '<a href="gestion.php">Gestion</a>';
-                            } else {
-                                echo '<a href="moncompte.php">Mon compte</a>';
-                            }
+<header>
+    <nav>
+        <ul>
+            <li><img class="logo" src="images/logo-transparent-png.png" alt="logo" /></li>
+            <li><a href="index.php">Accueil</a></li>
+            <li>
+            <?php
+                if (isset($_SESSION['email'])) {
+                    try {
+                        $pdo = new PDO("mysql:host=localhost;dbname=web;charset=utf8", "root", "root");
+                        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                        $stmt = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
+                        $stmt->execute([$_SESSION['email']]);
+                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                        echo $user && $user['admin'] ? '<a href="gestion.php">Gestion</a>' : '<a href="moncompte.php">Mon compte</a>';
                     } catch (PDOException $e) {
-                        echo "Erreur de connexion à la base de données : " . $e->getMessage();
+                        echo "Erreur BDD : " . $e->getMessage();
                     }
-                    } else {
-                        echo '<a href="html/newsletter.php">Newsletter</a>';
-                    }
+                } else {
+                    echo '<a href="html/newsletter.php">Newsletter</a>';
+                }
             ?>
             </li>
+            <li><a href="html/information.php">Information</a></li>
+            <li>
+                <?php if (isset($_SESSION['email'])): ?>
+                    <a href="deconnexion.php">Déconnexion</a>
+                <?php else: ?>
+                    <a href="html/indentification.php">S'identifier</a>
+                <?php endif; ?>
+            </li>
+            <li><a href="monpanier.php" id="panier-bouton">🛒 Panier</a></li>
+        </ul>
+    </nav>
+</header>
 
-                <li><a href="html/information.php">Information</a></li>
-                <li>
-                    <?php if (isset($_SESSION['email'])): ?>
-                        <a href="deconnexion.php">Déconnexion</a>
-                    <?php else: ?>
-                        <a href="html/indentification.php">S'identifier</a>
-                    <?php endif; ?>
-                </li>
-                <li><a href="monpanier.php" id="panier-bouton">🛒 Panier</a>
-                </li>
-            </ul> 
-        </nav>
-    </header>
-    
-    </br>
-    <?php if (isset($_SESSION['email'])): ?>
-        <div class="bienvenue">
-        👋 Bienvenue, <?php
-            $nomUtilisateur = explode('@', $_SESSION['email'])[0];
-            echo htmlspecialchars($nomUtilisateur);
-            ?> ! Vous êtes actuellement connecté sur votre compte !
-        </div>
-    <?php endif; ?>
-    <main>
-        <div class="barre-de-recherche">
-            <input type="text" placeholder="Rechercher un produit" />
-            <button>Rechercher</button>
-        </div>
-        </br>
-        </br>
-        <div class="articles">
+<br>
+<?php if (isset($_SESSION['email'])): ?>
+    <div class="bienvenue">
+        Bienvenue, <?= htmlspecialchars(explode('@', $_SESSION['email'])[0]) ?> ! Vous êtes actuellement connecté sur votre compte !
+    </div>
+<?php endif; ?>
+
+<main>
+    <div class="barre-de-recherche">
+        <input type="text" placeholder="Rechercher un produit" />
+        <button>Rechercher</button>
+    </div>
+    <br><br>
+    <div class="articles">
             <div class="produit">
                 <img class="image-produit" src="images/produit1.jpg" alt="produit1" />
                 <h2 class="titre"><strong>999.99€</strong></h2>
@@ -160,11 +155,12 @@ session_start();
                 <img src="images/etoile5.png" width="150" />
             </div>
         </div> <!--- fin de la div articles-->
-    </main>
-    <hr />
-    <footer>
-        <p>&copy; 2024 - Click & Deals</p>
-        <button type="button" onclick="location.href='#'">↑ Retournez en haut ↑</button>
-    </footer>
+        </main>
+
+<hr />
+<footer>
+    <p>&copy; 2024 - Click & Deals</p>
+    <button type="button" onclick="location.href='#'">↑ Retournez en haut ↑</button>
+</footer>
 </body>
 </html>

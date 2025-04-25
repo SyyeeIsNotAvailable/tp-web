@@ -20,8 +20,18 @@ if (!$utilisateur) {
 
 $id_utilisateur = $utilisateur['id'];
 
-// 🔄 Requête avec le vrai prix de l'article
-$sql = "SELECT a.nom, a.prix 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['supprimer_article'])) {
+    $id_article = $_POST['id_article'] ?? null;
+
+    if ($id_article) {
+        $deleteStmt = $pdo->prepare("DELETE FROM panier WHERE id_utilisateur = ? AND id_article = ?");
+        $deleteStmt->execute([$id_utilisateur, $id_article]);
+    }
+}
+
+
+$sql = "SELECT a.nom, a.prix, a.id_article 
         FROM panier p
         JOIN article a ON p.id_article = a.id_article
         WHERE p.id_utilisateur = ?";
@@ -30,7 +40,7 @@ $stmt->execute([$id_utilisateur]);
 $articles = $stmt->fetchAll();
 ?>
 
-
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <title>Click & Deals</title>
@@ -94,16 +104,18 @@ $articles = $stmt->fetchAll();
             </ul> 
         </nav>
     </header>
-    <h2 class='nom-gestion'>Votre panier</h2>
+</body>
+<h2 class='nom-gestion'>Votre panier</h2>
+
 <?php if (empty($articles)): ?>
-    <p>Votre panier est vide.</p>
+    <p>Il n'y a aucun article dans votre panier pour le moment</p>
 <?php else: ?>
-    <table class="gestion-table">
+    <table class='gestion-table'>
         <thead>
             <tr>
                 <th>Nom de l'article</th>
                 <th>Prix</th>
-                <th>Supprimer</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -115,11 +127,18 @@ $articles = $stmt->fetchAll();
                 <tr>
                     <td><?= htmlspecialchars($article['nom']) ?></td>
                     <td><?= number_format($article['prix'], 2) ?> €</td>
+                    <td>
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="id_article" value="<?= $article['id_article'] ?>">
+                            <button type="submit" name="supprimer_article" onclick="return confirm('Supprimer cet article ?')">🗑 Supprimer</button>
+                        </form>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <td><strong>Total</strong></td>
                 <td><strong><?= number_format($total, 2) ?> €</strong></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
