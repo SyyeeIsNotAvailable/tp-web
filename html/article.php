@@ -68,6 +68,7 @@ if (isset($_GET['id'])) {
             <p><?= $article['etoiles'] ?> étoiles</p>
             <p>Livraison gratuite sous 10 jours</p>
             <button type="button" class="buttonConnexion"><span>Ajout au panier</span><img src="../images/icon-checkmark.png" height="50" width="50" /></button>
+            <p>Stock : <?= $article['stock'] ?></p>
         </div>
     </main>
     <hr />

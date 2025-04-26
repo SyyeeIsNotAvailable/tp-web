@@ -149,7 +149,7 @@ $articles = $pdo->query('SELECT * FROM article')->fetchAll(PDO::FETCH_ASSOC);
                     <h2 class="titre"><strong><?= number_format($article['prix'], 2, ',', ' ') ?>€</strong></h2>
                     <h2 class="titre"><?= htmlspecialchars($article['nom']) ?></h2>
                     <button type="button" onclick="location.href='html/article.php?id=<?= $article['id_article']?>'">
-                        <span>Ajout au panier</span>
+                        <span>Plus d'information</span>
                         <img src="images/icon-checkmark.png" height="50" width="50" />
                     </button>
                     <br/>
