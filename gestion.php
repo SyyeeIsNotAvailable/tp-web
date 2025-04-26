@@ -163,16 +163,19 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
 
 <h2 class='nom-gestion'>Gestion des utilisateurs</h2>
 <table class='gestion-table'>
-    <tr>
-        <th>ID</th>
-        <th>Email</th>
-        <th>Admin</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Naissance</th>
-        <th>Adresse</th>
-        <th>Actions</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Admin</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Naissance</th>
+            <th>Adresse</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
     <?php foreach ($users as $user): ?>
     <tr>
         <form method="POST">
@@ -195,7 +198,8 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
 
 <h2 class='nom-gestion'>Gestion des articles</h2>
 <table class='gestion-table'>
-    <tr class='premierligne'>
+    <thead>
+    <tr>
         <th>ID</th>
         <th>Nom</th>
         <th>Description</th>
@@ -205,6 +209,7 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
         <th>Image</th>
         <th>Actions</th>
     </tr>
+    </thead>
     <form method="POST" enctype="multipart/form-data">
     <tr>
         <td>Auto</td>

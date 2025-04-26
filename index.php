@@ -159,7 +159,7 @@ $articles = $pdo->query('SELECT * FROM article')->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>Aucun article disponible pour le moment.</p>
+            <h2 class='nom-gestion' >Aucun article disponible pour le moment.</h2>
         <?php endif; ?>
     </div>
 

@@ -695,22 +695,14 @@ footer p {
     padding-right: 100px;
 }
 
-
-
-.gestion-table thead th {
-    padding: 10px;
-    text-align: left;
-    background-color: #ffffff;
-    color: #000000;
-    border: none;
-    border-bottom: 1px solid #ccc;
+.gestion-table thead {
+    background-color: white;
+    color: black;
+    font-weight: bold;
 }
-
-.gestion-table tbody td {
-    padding: 10px;
-    text-align: left;
-    border: none;
-    color: #ffffff;
+.gestion-table tr {
+    text-align: center;
+    vertical-align: middle;
 }
 
 .nom-gestion {
