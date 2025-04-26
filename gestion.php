@@ -64,14 +64,12 @@ if (isset($_GET['delete_article'])) {
 // Modification article
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier_article'])) {
     try {
-        $stmt = $pdo->prepare("UPDATE article SET nom = ?, description = ?, prix = ?, etoiles = ?, id_avis = ?, stock = ? WHERE id_article = ?");
-        $id_avis_value = !empty($_POST['id_avis']) ? $_POST['id_avis'] : null;
+        $stmt = $pdo->prepare("UPDATE article SET nom = ?, description = ?, prix = ?, etoiles = ?, stock = ? WHERE id_article = ?");
         $stmt->execute([
             $_POST['nom'],
             $_POST['description'],
             $_POST['prix'],
             $_POST['etoiles'],
-            $id_avis_value,
             $_POST['stock'],
             $_POST['id_article']
         ]);
@@ -85,24 +83,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier_article'])) 
 // Ajout d'article
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_article'])) {
     try {
-        $stmt = $pdo->prepare("INSERT INTO article (nom, description, prix, etoiles, stock) VALUES (?, ?, ?, ?, ?)");
+        $imagePath = null;
+
+        if (isset($_FILES['image_nouveau']) && $_FILES['image_nouveau']['error'] === UPLOAD_ERR_OK) {
+            $uploadsDir = 'uploads/';
+            if (!is_dir($uploadsDir)) {
+                mkdir($uploadsDir, 0777, true);
+            }
+
+            $filename = basename($_FILES['image_nouveau']['name']);
+            $targetFile = $uploadsDir . uniqid() . '_' . $filename;
+            move_uploaded_file($_FILES['image_nouveau']['tmp_name'], $targetFile);
+
+            $imagePath = $targetFile;
+        }
+
+        $stmt = $pdo->prepare("INSERT INTO article (nom, description, prix, etoiles, stock, image) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $_POST['nom_nouveau'],
             $_POST['description_nouveau'],
             $_POST['prix_nouveau'],
             $_POST['etoiles_nouveau'],
-            $_POST['stock_nouveau']
+            $_POST['stock_nouveau'],
+            $imagePath
         ]);
+
         header("Location: gestion.php?status=article_added");
         exit();
     } catch (PDOException $e) {
-        die("Erreur ajout article : " . $e->getMessage());
+        die("Erreur lors de l'ajout d'un article : " . $e->getMessage());
     }
 }
 
 $users = $pdo->query("SELECT * FROM utilisateurs ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
 $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -114,14 +130,12 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
 <header>
     <nav>
         <ul>
-            <li><img class="logo" src="images/logo-transparent-png.png" alt="logo" /></li>
+            <li><img class="logo" src="images/logo-transparent-png.png" alt="logo"></li>
             <li><a href="index.php">Accueil</a></li>
             <li>
             <?php
                 if (isset($_SESSION['email'])) {
                     try {
-                        $pdo = new PDO("mysql:host=localhost;dbname=web;charset=utf8", "root", "root");
-                        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                         $stmt = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
                         $stmt->execute([$_SESSION['email']]);
                         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -146,6 +160,7 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
         </ul>
     </nav>
 </header>
+
 <h2 class='nom-gestion'>Gestion des utilisateurs</h2>
 <table class='gestion-table'>
     <tr>
@@ -179,46 +194,55 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
 </table>
 
 <h2 class='nom-gestion'>Gestion des articles</h2>
-<table>
-    <tr>
+<table class='gestion-table'>
+    <tr class='premierligne'>
         <th>ID</th>
         <th>Nom</th>
         <th>Description</th>
         <th>Prix</th>
         <th>Étoiles</th>
         <th>Stock</th>
+        <th>Image</th>
         <th>Actions</th>
     </tr>
+    <form method="POST" enctype="multipart/form-data">
     <tr>
-        <form method="POST">
-            <td>Auto</td>
-            <td><input name="nom_nouveau" required></td>
-            <td><input name="description_nouveau" required></td>
-            <td><input name="prix_nouveau" type="number" step="0.01" required></td>
-            <td><input name="etoiles_nouveau" type="number" min="0" max="5" required></td>
-            <td><input name="stock_nouveau" type="number" required></td>
-            <td><button name="ajouter_article">➕</button></td>
-        </form>
+        <td>Auto</td>
+        <td><input name="nom_nouveau" required></td>
+        <td><input name="description_nouveau" required></td>
+        <td><input name="prix_nouveau" type="number" step="0.01" required></td>
+        <td><input name="etoiles_nouveau" type="number" min="0" max="5" required></td>
+        <td><input name="stock_nouveau" type="number" required></td>
+        <td><input name="image_nouveau" type="file" accept="image/*" required></td>
+        <td><button type="submit" name="ajouter_article">➕</button></td>
     </tr>
+    </form>
+
     <?php foreach ($articles as $article): ?>
-    
     <tr>
         <form method="POST">
             <td><?= $article['id_article'] ?></td>
-            <td><input name="nom" value="<?= $article['nom'] ?>"></td>
-            <td><input name="description" value="<?= $article['description'] ?>"></td>
-            <td><input name="prix" type="number" step="0.01" value="<?= $article['prix'] ?>"></td>
-            <td><input name="etoiles" type="number" value="<?= $article['etoiles'] ?>" min="0" max="5"></td>
-            <td><input name="stock" type="number" value="<?= $article['stock'] ?>"></td>
+            <td><input name="nom" value="<?= htmlspecialchars($article['nom']) ?>"></td>
+            <td><input name="description" value="<?= htmlspecialchars($article['description']) ?>"></td>
+            <td><input name="prix" type="number" step="0.01" value="<?= htmlspecialchars($article['prix']) ?>"></td>
+            <td><input name="etoiles" type="number" value="<?= htmlspecialchars($article['etoiles']) ?>" min="0" max="5"></td>
+            <td><input name="stock" type="number" value="<?= htmlspecialchars($article['stock']) ?>"></td>
+            <td>
+                <?php if (!empty($article['image'])): ?>
+                    <img src="<?= htmlspecialchars($article['image']) ?>" alt="Image" style="max-width: 100px; max-height: 100px;">
+                <?php else: ?>
+                    Pas d'image
+                <?php endif; ?>
+            </td>
             <td>
                 <input type="hidden" name="id_article" value="<?= $article['id_article'] ?>">
-                <button name="modifier_article">💾</button>
+                <button type="submit" name="modifier_article">💾</button>
                 <a href="gestion.php?delete_article=<?= $article['id_article'] ?>">🗑️</a>
             </td>
         </form>
     </tr>
     <?php endforeach; ?>
-    
 </table>
+
 </body>
 </html>
