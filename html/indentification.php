@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <title>Identification</title>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="icon" href="../images/logo-transparent-png.png" type="image/x-icon" />
 </head>
 <body id="backcolor">
     <div class="container">

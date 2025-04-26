@@ -125,6 +125,7 @@ $articles = $pdo->query("SELECT * FROM article ORDER BY id_article ASC")->fetchA
     <meta charset="UTF-8">
     <title>Gestion</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/logo-transparent-png.png" type="image/x-icon" />
 </head>
 <body>
 <header>
