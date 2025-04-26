@@ -115,7 +115,10 @@ $articles = $pdo->query('SELECT * FROM article')->fetchAll(PDO::FETCH_ASSOC);
                     <a href="html/indentification.php">S'identifier</a>
                 <?php endif; ?>
             </li>
-            <li><a href="monpanier.php" id="panier-bouton">🛒 Panier</a></li>
+            <li><?php if (isset($_SESSION['email'])): ?>
+                    <a href="monpanier.php" id="panier-bouton">🛒 Panier</a>
+                <?php endif ?>
+            </li>
         </ul>
     </nav>
 </header>

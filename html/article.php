@@ -43,12 +43,9 @@ if (isset($_GET['id'])) {
                 <li><a id=newsletter href="../html/newsletter.html">Newsletter</a></li>
                 <li><a id=information href="../html/information.html">Information</a></li>
                 <li><a id=identification href="../html/indentification.php">S'identifier</a></li>
-                <li><a id=panier href="#cart-modal" id="panier-bouton">🛒 Panier</a>
-                    <div id="cart-modal">
-            <div class="cart-content">
-                <a href="#" class="close-modal">&times;</a>
-                <p>Votre panier est vide.</p>
-            </div></li>
+                <li><?php if (isset($_SESSION['email'])): ?>
+                    <a href="../monpanier.php" id="panier-bouton">🛒 Panier</a>
+                <?php endif ?></li>
 
             </ul> 
         </nav>
