@@ -8,7 +8,7 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    die("❌ Erreur de connexion à la base de données : " . $e->getMessage());
+    die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $verif->execute([':email' => $email]);
     
     if ($verif->fetch()) {
-        echo "❌ Cet e-mail est déjà utilisé. <a href='javascript:history.back()'>Retour</a>";
+        echo "Cet e-mail est déjà utilisé. <a href='javascript:history.back()'>Retour</a>";
         exit;
     }
 
@@ -50,11 +50,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../index.php");
         exit;
     } catch (PDOException $e) {
-        echo "❌ Erreur lors de l'insertion : " . $e->getMessage();
+        echo "Erreur lors de l'insertion : " . $e->getMessage();
         exit;
     }
 } else {
-    echo "❌ Méthode HTTP non autorisée.";
+    echo "Méthode HTTP non autorisée.";
     exit;
 }
 ?>

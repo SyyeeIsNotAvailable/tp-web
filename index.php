@@ -142,10 +142,10 @@ $articles = $pdo->query('SELECT * FROM article')->fetchAll(PDO::FETCH_ASSOC);
         <?php if (count($articles) > 0): ?>
             <?php foreach ($articles as $article): ?>
                 <div class="produit">
-                    <img class="image-produit" src="<?= !empty($article['image']) ? htmlspecialchars($article['image']) : 'images/no-image.png' ?>" alt="<?= htmlspecialchars($article['nom']) ?>" />
+                    <img class="image-produit" src="<?= !empty($article['image']) ? htmlspecialchars($article['image']) : 'images/panier.png' ?>" alt="<?= htmlspecialchars($article['nom']) ?>" />
                     <h2 class="titre"><strong><?= number_format($article['prix'], 2, ',', ' ') ?>€</strong></h2>
                     <h2 class="titre"><?= htmlspecialchars($article['nom']) ?></h2>
-                    <button type="button" onclick="location.href='html/article<?= intval($article['id_article']) ?>.html'">
+                    <button type="button" onclick="location.href='html/article.php?id=<?= $article['id_article']?>'">
                         <span>Ajout au panier</span>
                         <img src="images/icon-checkmark.png" height="50" width="50" />
                     </button>
