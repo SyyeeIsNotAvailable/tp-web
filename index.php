@@ -9,6 +9,11 @@ if (isset($_POST['theme'])) {
 }
 
 $theme = isset($_COOKIE['theme']) ? $_COOKIE['theme'] : null;
+
+
+$pdo = new PDO('mysql:host=localhost;dbname=ta_base;charset=utf8', 'utilisateurs', 'motdepasse');
+$articles = $pdo->query("SELECT * FROM articles")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -81,80 +86,44 @@ $theme = isset($_COOKIE['theme']) ? $_COOKIE['theme'] : null;
     </div>
     <br><br>
     <div class="articles">
-            <div class="produit">
-                <img class="image-produit" src="images/produit1.jpg" alt="produit1" />
-                <h2 class="titre"><strong>999.99€</strong></h2>
-                <h2 class="titre">Canard</h2>
-                <button type="button" onclick="location.href='html/article1.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile5.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/booster-pokemon.jpg" alt="produit1" />
-                <h2 class="titre"><strong>499.99€</strong></h2>
-                <h2 class="titre">Booster Pokemon Destinées Occultes</h2>
-                <button type="button" onclick="location.href='html/article2.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile4.png" width="150" />
-        
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/joystick.jpg" alt="produit1" />
-                <h2 class="titre"><strong>2 490.99€</strong></h2>
-                <h2 class="titre">Joystick</h2>
-                <button type="button" onclick="location.href='html/article3.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile2.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/proteges-tibias-et-pieds-basic.jpg" alt="produit1" />
-                <h2 class="titre"><strong>2 900.99€</strong></h2>
-                <h2 class="titre">Protèges tibias</h2>
-                <button type="button" onclick="location.href='html/article4.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile3.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/selle-velo.jpg" alt="produit1" />
-                <h2 class="titre"><strong>11 900.99€</strong></h2>
-                <h2 class="titre">Selle de vélo VTT (Extra molle)</h2>
-                <button type="button" onclick="location.href='html/article5.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile1.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/pantoufle-homer.jpg" alt="produit1" />
-                <h2 class="titre"><strong>1 000 000€</strong></h2>
-                <h2 class="titre">Chausson Homer (Ouh punaise marge)</h2>
-                <button type="button" onclick="location.href='html/article6.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile5.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/deguissement-fortnite.jpg" alt="produit1" />
-                <h2 class="titre"><strong>1 900.99€</strong></h2>
-                <h2 class="titre">Deguissement Terreur Fluo (Fortnite battle pass)</h2>
-                <button type="button" onclick="location.href='html/article7.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile5.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/masque-cheval.webp" alt="produit1" />
-                <h2 class="titre"><strong>75 000€</strong></h2>
-                <h2 class="titre">Masque cheval ultra réaliste</h2>
-                <button type="button" onclick="location.href='html/article8.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile1.png" width="150" />
-            </div>
-            <div class="produit">
-                <img class="image-produit" src="images/puff.jpg" alt="puff" />
-                <h2 class="titre"><strong>9 000€</strong></h2>
-                <h2 class="titre">Puff 9k</h2>
-                <button type="button" onclick="location.href='html/article9.html'"><span>Ajout au panier</span><img src="images/icon-checkmark.png" height="50" width="50" /></button>
-                </br>
-                <img src="images/etoile5.png" width="150" />
-            </div>
-        </div> <!--- fin de la div articles-->
+    
+
+    <?php foreach ($articles as $article): ?>
+        <div class="produit">
+            <!-- Image du produit -->
+            <img 
+                class="image-produit" 
+                src="<?= !empty($article['image']) ? htmlspecialchars($article['image']) : 'images/no-image.png' ?>" 
+                alt="<?= htmlspecialchars($article['nom']) ?>" 
+            />
+
+            <!-- Prix -->
+            <h2 class="titre">
+                <strong><?= number_format($article['prix'], 2, ',', ' ') ?>€</strong>
+            </h2>
+
+            <!-- Nom du produit -->
+            <h2 class="titre"><?= htmlspecialchars($article['nom']) ?></h2>
+
+            <!-- Bouton d'ajout au panier -->
+            <button type="button" onclick="location.href='html/article<?= intval($article['id_article']) ?>.html'">
+                <span>Ajout au panier</span>
+                <img src="images/icon-checkmark.png" height="50" width="50" />
+            </button>
+            <br/>
+
+            <!-- Affichage des étoiles -->
+            <?php
+                $etoiles = isset($article['etoiles']) ? (int)$article['etoiles'] : 0;
+                // Vérifier que l'image existe pour éviter les erreurs
+                $etoiles = max(1, min($etoiles, 5)); // Entre 1 et 5 étoiles
+                $cheminEtoile = "images/etoile" . $etoiles . ".png";
+            ?>
+            <img src="<?= $cheminEtoile ?>" width="150" />
+        </div>
+    <?php endforeach; ?>
+</div>
+ <!--- fin de la div articles-->
         </main>
 
 <hr />
