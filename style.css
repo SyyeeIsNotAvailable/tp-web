@@ -408,7 +408,7 @@ button {
 
 .open_article img {
     width: 500px;
-    height: 500px;
+    height: 550px;
     object-fit: fill;
     border-radius: 10px;
 }
@@ -423,7 +423,7 @@ button {
 
 .textDescription {
     width: 820px;
-    height: 500px;
+    height: 550px;
     padding-left: 20px;
     padding-right: 20px;
     background-color: #ffffff;

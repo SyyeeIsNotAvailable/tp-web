@@ -107,6 +107,11 @@ if (isset($_GET['id'])) {
                 }
             }
             ?>
+            <h3>Ajouter un commentaire :</h3>
+            <form method="post" action="#" class="comment-form">
+            <textarea name="commentaire" placeholder="Écrivez votre commentaire ici..." rows="4" cols="50" required></textarea>
+            <button type="submit" class="buttonConnexion">Ajouter le commentaire</button>
+            </form>
         </div>
         <div class="text">
             <h4>Neuf :</h4>
