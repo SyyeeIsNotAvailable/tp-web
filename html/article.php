@@ -16,6 +16,46 @@ if (isset($_GET['id'])) {
         echo "L'article demandé n'existe pas.";
         exit();
     }
+    $stmt = $pdo->prepare("SELECT id_avis FROM avis WHERE id_article = :id_article");
+    $stmt->execute(['id_article' => $id_article]);
+    $avis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    if (count($avis)>3){
+        shuffle($avis);
+        $avis=array_slice($avis,0,3);
+    }
+    if (!empty($avis)){
+        $nom=[];
+        $placeholders = implode(',', array_fill(0, count($avis), '?'));
+        $stmt = $pdo->prepare("SELECT id_utilisateurs FROM avis WHERE id_avis IN ($placeholders)");
+        $stmt->execute($avis);
+        $id_utilisateurs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if (!empty($id_utilisateurs)) {
+            $placeholders = implode(',', array_fill(0, count($id_utilisateurs), '?'));
+            $stmt = $pdo->prepare("SELECT id, prenom FROM utilisateurs WHERE id IN ($placeholders)");
+            $stmt->execute($id_utilisateurs);
+            $utilisateurs = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    
+            foreach ($id_utilisateurs as $id) {
+                if (isset($utilisateurs[$id])) {
+                    $nom[] = $utilisateurs[$id];
+                } else {
+                    $nom[] = "Inconnu";
+                }
+            }
+        }
+        $avis_description = [];
+        $placeholders = implode(',', array_fill(0, count($avis), '?'));
+        $stmt = $pdo->prepare("SELECT id_avis, commentaire FROM avis WHERE id_avis IN ($placeholders)");
+        $stmt->execute($avis);
+        $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        foreach ($commentaires as $row) {
+            $avis_description[$row['id_avis']] = $row['commentaire'];
+        }
+        
+    }
+    
+
 } else {
     echo "Aucun article sélectionné.";
     exit();
@@ -57,10 +97,16 @@ if (isset($_GET['id'])) {
         <div class="textDescription">   
             <h1><?= $article['nom'] ?></h1>
             <p><?= $article['description'] ?></p>
-            <h3>Avis :</h3>
-            <p><u>Mumu le player</u> : </br>Bon produit, vraiment conforme à la description</p>
-            <p><u>Lord Maximous</u> : </br>Super pour faire une blague à mes beaux-parents</p>
-            <p><u>LeRacketteur</u> : </br>Très efficace pour faire peur au pseudo-judoka</p>
+            <?php if (count($avis)>0): ?>
+            <h3>Avis :</h3><?php endif ?>
+            <?php
+            for ($i = 0; $i < count($avis); $i++) {
+                $id_avis = $avis[$i]; 
+                if (isset($avis_description[$id_avis])) {
+                    echo "<p><u>" . htmlspecialchars($nom[$i]) . " </u> : ". htmlspecialchars($avis_description[$id_avis]) . "</p>";
+                }
+            }
+            ?>
         </div>
         <div class="text">
             <h4>Neuf :</h4>
