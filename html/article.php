@@ -78,15 +78,32 @@ if (isset($_GET['id'])) {
     <header>
         <nav>
             <ul>
-                <li><img class=logo src="../images/logo-transparent-png.png" alt="logo" /></li>
-                <li><a id=accueil href="../index.php">Accueil</a></li>
-                <li><a id=newsletter href="../html/newsletter.html">Newsletter</a></li>
-                <li><a id=information href="../html/information.html">Information</a></li>
-                <li><a id=identification href="../html/indentification.php">S'identifier</a></li>
-                <li><?php if (isset($_SESSION['email'])): ?>
+            <li><img class="logo" src="../images/logo-transparent-png.png" alt="logo" /></li>
+            <li><a href="../index.php">Accueil</a></li>
+            <li>
+            <?php
+                if (isset($_SESSION['email'])) {
+                    $stmt = $pdo->prepare("SELECT admin FROM utilisateurs WHERE email = ?");
+                    $stmt->execute([$_SESSION['email']]);
+                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                    echo $user && $user['admin'] ? '<a href="../gestion.php">Gestion</a>' : '<a href="../moncompte.php">Mon compte</a>';
+                } else {
+                    echo '<a href="newsletter.php">Newsletter</a>';
+                }
+            ?>
+            </li>
+            <li><a href="information.php">Information</a></li>
+            <li>
+                <?php if (isset($_SESSION['email'])): ?>
+                    <a href="../deconnexion.php">Déconnexion</a>
+                <?php else: ?>
+                    <a href="indentification.php">S'identifier</a>
+                <?php endif; ?>
+            </li>
+            <li><?php if (isset($_SESSION['email'])): ?>
                     <a href="../monpanier.php" id="panier-bouton">🛒 Panier</a>
-                <?php endif ?></li>
-
+                <?php endif ?>
+            </li>
             </ul> 
         </nav>
     </header>
@@ -107,11 +124,13 @@ if (isset($_GET['id'])) {
                 }
             }
             ?>
+            <?php if (isset($_SESSION['email'])): ?>
             <h3>Ajouter un commentaire :</h3>
             <form method="post" action="#" class="comment-form">
             <textarea name="commentaire" placeholder="Écrivez votre commentaire ici..." rows="4" cols="50" required></textarea>
             <button type="submit" class="buttonConnexion">Ajouter le commentaire</button>
             </form>
+            <?php endif ?></li>
         </div>
         <div class="text">
             <h4>Neuf :</h4>
