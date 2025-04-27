@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <img src="../images/icon-checkmark.png" height="50" width="50" />
             </button><br>
 
+            <a href="newsletter.php">Creer un compte</a><br> 
             <a href="mdp_oublier.html">Mot de passe oublié</a><br>
             <a href="../index.php">Retour à l'accueil</a>
         </form>

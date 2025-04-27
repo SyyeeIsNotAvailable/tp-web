@@ -165,7 +165,7 @@ nav a:hover {
 .form1 { /* habillage du formulaire d'identification */
     background: rgba(255, 255, 255, .3);
     padding: 3rem;
-    height: 340px;
+    height: 390px; /* Augmenté de 10px */
     border-radius: 20px;
     border-left: 1px solid rgba(255, 255, 255, .3);
     border-top: 1px solid rgba(255, 255, 255, .3);
@@ -208,7 +208,7 @@ nav a:hover {
     color: black;
     font-weight: 500;
     opacity: .7;
-    font-size: 1.4rem;
+    font-size: 1.4 rem;
     margin-bottom: 60px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
 }
