@@ -137,7 +137,44 @@ if (isset($_GET['id'])) {
             <h1><?= $article['prix'] ?>€</h1>
             <p><?= $article['etoiles'] ?> étoiles</p>
             <p>Livraison gratuite sous 10 jours</p>
-            <button type="button" class="buttonConnexion"><span>Ajout au panier</span><img src="../images/icon-checkmark.png" height="50" width="50" /></button>
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_article'])) {
+                if (isset($_SESSION['email'])) {
+                    $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = ?");
+                    $stmt->execute([$_SESSION['email']]);
+                    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($user) {
+                        $id_utilisateur = $user['id'];
+                        $id_article = (int)$_POST['id_article'];
+                        $stmt = $pdo->prepare("SELECT prix FROM article WHERE id_article = ?");
+                        $stmt->execute([$id_article]);
+                        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if ($article) {
+                            $prix = $article['prix'];
+                            $stmt = $pdo->prepare("INSERT INTO panier (id_utilisateur, id_article, prix) VALUES (?, ?, ?)");
+                            $stmt->execute([$id_utilisateur, $id_article, $prix]);
+                            echo "<p style='color: green; font-weight: bold;'>✔ Article ajouté au panier avec succès !</p>";
+                        } else {
+                            echo "<p style='color: red; font-weight: bold;'>❌ Article introuvable.</p>";
+                        }
+                    } else {
+                        echo "<p style='color: red; font-weight: bold;'>❌ Utilisateur introuvable.</p>";
+                    }
+                } else {
+                    echo "<p style='color: orange; font-weight: bold;'>⚠ Vous devez être connecté pour ajouter un article au panier.</p>";
+                }
+            }
+            ?>
+
+            <form method="post" action="">
+                <input type="hidden" name="id_article" value="<?= $article['id_article'] ?>">
+                <button type="submit" class="buttonConnexion">
+                    <span>Ajout au panier</span>
+                    <img src="../images/icon-checkmark.png" height="50" width="50" />
+                </button>
+            </form>
             <p>Stock : <?= $article['stock'] ?></p>
         </div>
     </main>
