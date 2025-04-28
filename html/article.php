@@ -149,10 +149,10 @@ if (isset($_GET['id'])) {
                         $id_article = (int)$_POST['id_article'];
                         $stmt = $pdo->prepare("SELECT prix FROM article WHERE id_article = ?");
                         $stmt->execute([$id_article]);
-                        $article = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $article_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                        if ($article) {
-                            $prix = $article['prix'];
+                        if ($article_data) {
+                            $prix = $article_data['prix'];
                             $stmt = $pdo->prepare("INSERT INTO panier (id_utilisateur, id_article, prix) VALUES (?, ?, ?)");
                             $stmt->execute([$id_utilisateur, $id_article, $prix]);
                             echo "<p style='color: green; font-weight: bold;'>✔ Article ajouté au panier avec succès !</p>";
