@@ -20,18 +20,28 @@ if (!$utilisateur) {
 
 $id_utilisateur = $utilisateur['id'];
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['supprimer_article'])) {
     $id_article = $_POST['id_article'] ?? null;
 
     if ($id_article) {
-        $deleteStmt = $pdo->prepare("DELETE FROM panier WHERE id_utilisateur = ? AND id_article = ?");
-        $deleteStmt->execute([$id_utilisateur, $id_article]);
+        // Vérifier la quantité actuelle
+        $checkStmt = $pdo->prepare("SELECT quantité FROM panier WHERE id_utilisateur = ? AND id_article = ?");
+        $checkStmt->execute([$id_utilisateur, $id_article]);
+        $article = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($article && $article['quantité'] > 1) {
+            // Décrémenter la quantité
+            $updateStmt = $pdo->prepare("UPDATE panier SET quantité = quantité - 1 WHERE id_utilisateur = ? AND id_article = ?");
+            $updateStmt->execute([$id_utilisateur, $id_article]);
+        } else {
+            // Supprimer l'article si la quantité est 1
+            $deleteStmt = $pdo->prepare("DELETE FROM panier WHERE id_utilisateur = ? AND id_article = ?");
+            $deleteStmt->execute([$id_utilisateur, $id_article]);
+        }
     }
 }
 
-
-$sql = "SELECT a.nom, a.prix, a.id_article 
+$sql = "SELECT a.nom, p.prix, p.id_article, p.quantité 
         FROM panier p
         JOIN article a ON p.id_article = a.id_article
         WHERE p.id_utilisateur = ?";
@@ -114,7 +124,9 @@ $articles = $stmt->fetchAll();
         <thead>
             <tr>
                 <th>Nom de l'article</th>
-                <th>Prix</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+                <th>Prix total</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -122,21 +134,26 @@ $articles = $stmt->fetchAll();
             <?php
             $total = 0;
             foreach ($articles as $article):
-                $total += $article['prix'];
+                $prix_total_article = $article['prix'] * $article['quantité'];
+                $total += $prix_total_article;
             ?>
                 <tr>
                     <td><?= htmlspecialchars($article['nom']) ?></td>
                     <td><?= number_format($article['prix'], 2) ?> €</td>
+                    <td><?= $article['quantité'] ?></td>
+                    <td><?= number_format($prix_total_article, 2) ?> €</td>
                     <td>
                         <form method="POST" style="display:inline;">
                             <input type="hidden" name="id_article" value="<?= $article['id_article'] ?>">
-                            <button type="submit" name="supprimer_article" onclick="return confirm('Supprimer cet article ?')">🗑 Supprimer</button>
+                            <button type="submit" name="supprimer_article" onclick="return confirm('Supprimer un exemplaire de cet article ?')">🗑 Supprimer</button>
                         </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <td><strong>Total</strong></td>
+                <td></td>
+                <td></td>
                 <td><strong><?= number_format($total, 2) ?> €</strong></td>
                 <td></td>
             </tr>
