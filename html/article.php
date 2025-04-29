@@ -114,14 +114,14 @@ if (isset($_GET['id'])) {
         <div class="textDescription">   
             <h1><?= $article['nom'] ?></h1>
             <p><?= $article['description'] ?></p>
-            <?php if (count($avis)>0): ?>
+            <?php if (count($avis) > 0): ?>
             <h3>Avis :</h3><?php endif ?>
             <?php
             for ($i = 0; $i < count($avis); $i++) {
-                $id_avis = $avis[$i]; 
-                if (isset($avis_description[$id_avis])) {
-                    echo "<p><u>" . htmlspecialchars($nom[$i]) . " </u> : ". htmlspecialchars($avis_description[$id_avis]) . "</p>";
-                }
+            $id_avis = $avis[$i]; 
+            if (isset($avis_description[$id_avis])) {
+                echo "<p><u>" . htmlspecialchars($nom[$i]) . " </u> : ". htmlspecialchars($avis_description[$id_avis]) . "</p>";
+            }
             }
             ?>
             <?php if (isset($_SESSION['email'])): ?>
@@ -130,7 +130,28 @@ if (isset($_GET['id'])) {
             <textarea name="commentaire" placeholder="Écrivez votre commentaire ici..." rows="4" cols="50" required></textarea>
             <button type="submit" class="buttonConnexion">Ajouter le commentaire</button>
             </form>
-            <?php endif ?></li>
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commentaire'])) {
+            $commentaire = trim($_POST['commentaire']);
+            if (!empty($commentaire)) {
+                $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = ?");
+                $stmt->execute([$_SESSION['email']]);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($user) {
+                $id_utilisateur = $user['id'];
+                $stmt = $pdo->prepare("INSERT INTO avis (id_article, id_utilisateurs, commentaire) VALUES (?, ?, ?)");
+                $stmt->execute([$id_article, $id_utilisateur, $commentaire]);
+                echo "<p style='color: green; font-weight: bold;'>✔ Commentaire ajouté avec succès !</p>";
+                } else {
+                echo "<p style='color: red; font-weight: bold;'>❌ Utilisateur introuvable.</p>";
+                }
+            } else {
+                echo "<p style='color: orange; font-weight: bold;'>⚠ Le commentaire ne peut pas être vide.</p>";
+            }
+            }
+            ?>
+            <?php endif ?>
         </div>
         <div class="text">
             <h4>Neuf :</h4>
