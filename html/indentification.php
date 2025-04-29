@@ -48,6 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <a href="mdp_oublier.html">Mot de passe oublié</a><br>
             <a href="../index.php">Retour à l'accueil</a>
         </form>
+    <div style="text-align: center; margin-top: 20px;">
+        <form class="theme" method="POST" style="display: inline-block; text-align: center; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px;">
+            <h3 style="color: black; margin-bottom: 15px;">Changer le thème</h3>
+            <label for="theme" style="color: black; font-weight: bold;">Choisissez un thème :</label>
+            <select name="theme" id="theme" style="color: black; padding: 5px; border-radius: 5px; margin-left: 10px;">
+                <option value="clair" <?= (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'clair') ? 'selected' : '' ?>>Clair</option>
+                <option value="sombre" <?= (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'sombre') ? 'selected' : '' ?>>Sombre</option>
+            </select>
+            <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; background-color: #4CAF50; color: white; border: none; cursor: pointer; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#45a049';" onmouseout="this.style.backgroundColor='#4CAF50';">Appliquer</button>
+        </form>
     </div>
+
+    <?php
+    // Gestion du thème via cookies
+    if (isset($_POST['theme'])) {
+        setcookie('theme', $_POST['theme'], time() + (86400 * 30), "/");
+        header("Location: indentification.php");
+        exit();
+    }
+    ?>
 </body>
 </html>

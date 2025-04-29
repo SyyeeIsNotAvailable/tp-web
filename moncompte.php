@@ -124,8 +124,26 @@ if (isset($_POST['delete'])) {
         <div class="boutoncompte">
             <button class="boutoncompte" type="submit" name="update" style="transition: background-color 0.3s; text-align: center; display: flex; justify-content: center; align-items: center;" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';">Enregistrer les modifications</button>
             <a href="deconnexion.php"><button type="button">Se déconnecter</button></a>
-            <button type="submit" name="delete" class="danger" onclick="return confirm('Supprimer votre compte ?')style="transition: background-color 0.3s; text-align: center; display: flex; justify-content: center; align-items: center;" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';">Supprimer mon compte</button>
+            <button type="submit" name="delete" class="danger" onclick="return confirm('Supprimer votre compte ?')" style="transition: background-color 0.3s; text-align: center; display: flex; justify-content: center; align-items: center;" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';">Supprimer mon compte</button>
         </div>
     </form>
+    <form class="theme" method="POST" style="margin-top: 20px; text-align: center;">
+        <h3 style="color: white;">Changer le thème</h3>
+        <label for="theme" style="color: white;">Choisissez un thème :</label>
+        <select name="theme" id="theme" style="color: black; padding: 5px; border-radius: 5px;">
+            <option value="clair" <?= (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'clair') ? 'selected' : '' ?>>Clair</option>
+            <option value="sombre" <?= (isset($_COOKIE['theme']) && $_COOKIE['theme'] === 'sombre') ? 'selected' : '' ?>>Sombre</option>
+        </select>
+        <button type="submit" style="margin-left: 10px; padding: 5px 10px; border-radius: 5px; background-color: #4CAF50; color: white; border: none; cursor: pointer; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#45a049';" onmouseout="this.style.backgroundColor='#4CAF50';">Appliquer</button>
+    </form>
+
+    <?php
+    // Gestion du thème via cookies
+    if (isset($_POST['theme'])) {
+        setcookie('theme', $_POST['theme'], time() + (86400 * 30), "/");
+        header("Location: moncompte.php");
+        exit();
+    }
+    ?>
 </body>
 </html>
