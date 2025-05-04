@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../connexion.php'); // Assure-toi que ce fichier contient la connexion PDO
+require_once('../connexion.php'); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];

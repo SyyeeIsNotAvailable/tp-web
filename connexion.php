@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'web'; // Remplace par le nom de ta base si différent
+$dbname = 'web'; 
 $username = 'root';
 $password = 'root'; // mot de passe MAMP
 

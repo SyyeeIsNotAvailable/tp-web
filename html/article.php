@@ -175,18 +175,18 @@ if (isset($_GET['id'])) {
                         if ($article_data) {
                             $prix = $article_data['prix'];
 
-                            // Check if the article is already in the cart
+                           
                             $stmt = $pdo->prepare("SELECT quantité FROM panier WHERE id_utilisateur = ? AND id_article = ?");
                             $stmt->execute([$id_utilisateur, $id_article]);
                             $panier_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
                             if ($panier_data) {
-                                // If the article is already in the cart, increase its quantity
+                                
                                 $stmt = $pdo->prepare("UPDATE panier SET quantité = quantité + 1 WHERE id_utilisateur = ? AND id_article = ?");
                                 $stmt->execute([$id_utilisateur, $id_article]);
                                 echo "<p style='color: green; font-weight: bold;'>✔ Quantité augmentée dans le panier avec succès !</p>";
                             } else {
-                                // If the article is not in the cart, add it with quantity 1
+                        
                                 $stmt = $pdo->prepare("INSERT INTO panier (id_utilisateur, id_article, prix, quantité) VALUES (?, ?, ?, 1)");
                                 $stmt->execute([$id_utilisateur, $id_article, $prix]);
                                 echo "<p style='color: green; font-weight: bold;'>✔ Article ajouté au panier avec succès !</p>";
